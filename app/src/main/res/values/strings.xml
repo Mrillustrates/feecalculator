@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">EbayFeeCalculator</string>
+    <string name="item_cost">Item cost</string>
+    <string name="selling_price">Selling price</string>
+    <string name="buyer_shipping_charge">Buyer Shipping Charge</string>
+    <string name="shipping_cost">Shipping Cost</string>
+    <string name="calculate">Calculate</string>
+    <string-array name="categories_array">
+        <item>Books, Magazines, &amp; Movies</item>
+        <item>Coin &amp; Paper Money</item>
+        <item>Clothing, Shoes, &amp; Accessories</item>
+        <item>Jewelry &amp; Watches</item>
+        <item>Heavy Equipment, Commercial Printing</item>
+        <item>Guitar &amp; Basses</item>
+        <item>Athletic Shoes</item>
+    </string-array>
+</resources>
