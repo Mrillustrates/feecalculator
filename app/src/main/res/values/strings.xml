@@ -2,10 +2,11 @@
     <string name="app_name">EbayFeeCalculator</string>
     <string name="item_cost">Item cost</string>
     <string name="selling_price">Selling price</string>
-    <string name="buyer_shipping_charge">Buyer Shipping Charge</string>
+    <string name="buyer_shipping_charge">Charged Shipping</string>
     <string name="shipping_cost">Shipping Cost</string>
     <string name="calculate">Calculate</string>
     <string-array name="categories_array">
+        <item>Most Categories </item>
         <item>Books, Magazines, &amp; Movies</item>
         <item>Coin &amp; Paper Money</item>
         <item>Clothing, Shoes, &amp; Accessories</item>
