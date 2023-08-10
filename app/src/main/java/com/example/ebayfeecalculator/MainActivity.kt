@@ -56,33 +56,45 @@ class MainActivity : AppCompatActivity() {
 
 
         //Filling in values based on user input for item cost, sell price, buyer shipping, shipping cost
-        val itemCost: EditText = findViewById(R.id.itemCost)
-        val sellPrice: EditText = findViewById(R.id.sellingPrice)
-        val buyerShipping: EditText = findViewById(R.id.shippingBuyer)
-        val shippingCost: EditText = findViewById(R.id.shippingCost)
+        var itemCost: EditText = findViewById(R.id.itemCost)
+        var sellPrice: EditText = findViewById(R.id.sellingPrice)
+        var buyerShipping: EditText = findViewById(R.id.shippingBuyer)
+        var shippingCost: EditText = findViewById(R.id.shippingCost)
 
         //Calculate button
         val calculateButton: Button = findViewById(R.id.calculate_button)
 
+        //Reset button
+        val resetButton: Button = findViewById(R.id.reset_button)
+
         //TODO replace toast message with a Textview showing results for expected profit
-        var resultText: TextView;
 
 
         //Calculates profit and/or ebay fees when user hits submit button//
         calculateButton.setOnClickListener{
-            val itemCostInt: Double = itemCost.text.toString().toDouble()
-            val sellPriceInt: Double = sellPrice.text.toString().toDouble()
-            val buyerShippingInt: Double = buyerShipping.text.toString().toDouble()
-            val shippingCostInt: Double = shippingCost.text.toString().toDouble()
+            var itemCostInt: Double = itemCost.text.toString().toDouble()
+            var sellPriceInt: Double = sellPrice.text.toString().toDouble()
+            var buyerShippingInt: Double = buyerShipping.text.toString().toDouble()
+            var shippingCostInt: Double = shippingCost.text.toString().toDouble()
 
 
 
             val ebayFees = ((sellPriceInt + buyerShippingInt) * (FINAL_FEE_VARIOUS) + FEE_PER_ORDER).toString()
             val estimate = BigDecimal((sellPriceInt + buyerShippingInt - itemCostInt - shippingCostInt - ebayFees.toDouble()).toString()).setScale(2, RoundingMode.HALF_EVEN)
 
+
             Toast.makeText(this@MainActivity, "The expected profit will be $estimate", Toast.LENGTH_LONG).show()
 
 
+
+
+        }
+        //resets all values to "" once button is clicked
+        resetButton.setOnClickListener{
+            itemCost.setText("")
+            sellPrice.setText("")
+            buyerShipping.setText("")
+            shippingCost.setText("")
 
 
         }
