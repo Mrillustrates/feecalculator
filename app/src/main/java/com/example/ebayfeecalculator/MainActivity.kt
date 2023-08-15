@@ -12,6 +12,20 @@ import kotlin.math.roundToInt
 
 const val FINAL_FEE_VARIOUS = .1325
 const val FEE_PER_ORDER = .30
+const val FINAL_FEE_BOOKS = .1495
+const val FINAL_FEE_COINS = .1325
+const val FINAL_FEE_CLOTHES = .15
+const val FINAL_FEE_JEWELRY = .15
+const val FINAL_FEE_ART = .05
+const val FINAL_FEE_INDUSTRY_EQUIP = .03
+const val LIST_FEE_INDUSTRY_EQUIP = 20
+const val FINAL_FEE_GUITAR = .0635
+const val FINAL_FEE_MEN_SHOES_OVER150 = .08
+const val FINAL_FEE_MEN_SHOES_UNDER150 = .1325
+const val ONE_HUNDRED_FIFTY= 150
+
+
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,33 +40,7 @@ class MainActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-        //TODO: Implement Spinner select listener to do a different formula based on selection
-        spinner.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View, position: Int, id: Long
-            ) {
-                /*Toast.makeText(
-                    this@MainActivity,
-                    getString(R.string.shipping_cost) + " " +
-                            "" + categories[position], Toast.LENGTH_SHORT
-                ).show() */
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // write code to perform some action
-            }
-        }
-       /*ArrayAdapter.createFromResource(
-            this,
-            R.array.categories_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
-        */
 
 
         //Filling in values based on user input for item cost, sell price, buyer shipping, shipping cost
@@ -61,27 +49,78 @@ class MainActivity : AppCompatActivity() {
         var buyerShipping: EditText = findViewById(R.id.shippingBuyer)
         var shippingCost: EditText = findViewById(R.id.shippingCost)
 
+
         //Calculate button
         val calculateButton: Button = findViewById(R.id.calculate_button)
 
         //Reset button
         val resetButton: Button = findViewById(R.id.reset_button)
 
+        var ebayEstimate: TextView;
+
+        var finalValueFee: Double = 0.0;
+
+
         //TODO replace toast message with a Textview showing results for expected profit
 
 
+
+
+
+        //TODO: Implement Spinner select listener to do a different formula based on selection
+        spinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
+                if(position ==1){
+                    finalValueFee = FINAL_FEE_BOOKS
+                    Toast.makeText(this@MainActivity, "Hi", Toast.LENGTH_LONG).show()
+                } else if(position == 2){
+                    finalValueFee = FINAL_FEE_COINS
+                }else if(position ==3){
+                    finalValueFee = FINAL_FEE_CLOTHES
+                } else if(position ==4){
+                    finalValueFee = FINAL_FEE_JEWELRY
+                } else if(position ==5) {
+                    finalValueFee = FINAL_FEE_INDUSTRY_EQUIP
+                }else if(position ==6) {
+                    finalValueFee = FINAL_FEE_ART
+                } else if(position ==7){
+                    finalValueFee = FINAL_FEE_GUITAR
+                } else if(position ==8 && sellPrice.text.toString().toDouble() <= ONE_HUNDRED_FIFTY){
+                    finalValueFee = FINAL_FEE_MEN_SHOES_UNDER150
+                } else if(position ==9 && sellPrice.text.toString().toDouble() >= ONE_HUNDRED_FIFTY)
+                    finalValueFee = FINAL_FEE_MEN_SHOES_OVER150
+                else {
+                    finalValueFee  = FINAL_FEE_VARIOUS
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
         //Calculates profit and/or ebay fees when user hits submit button//
         calculateButton.setOnClickListener{
+
             var itemCostInt: Double = itemCost.text.toString().toDouble()
             var sellPriceInt: Double = sellPrice.text.toString().toDouble()
             var buyerShippingInt: Double = buyerShipping.text.toString().toDouble()
             var shippingCostInt: Double = shippingCost.text.toString().toDouble()
 
-
-
-            val ebayFees = ((sellPriceInt + buyerShippingInt) * (FINAL_FEE_VARIOUS) + FEE_PER_ORDER).toString()
+            val ebayFees = ((sellPriceInt + buyerShippingInt) * (finalValueFee) + FEE_PER_ORDER).toString()
             val estimate = BigDecimal((sellPriceInt + buyerShippingInt - itemCostInt - shippingCostInt - ebayFees.toDouble()).toString()).setScale(2, RoundingMode.HALF_EVEN)
 
+
+
+
+            var resourceID: Int = resources.getIdentifier(estimate.toString(), "id", packageName)
+
+            if(resourceID != 0 ){
+                ebayEstimate = findViewById(resourceID);
+            }
 
             Toast.makeText(this@MainActivity, "The expected profit will be $estimate", Toast.LENGTH_LONG).show()
 

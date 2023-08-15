@@ -6,12 +6,14 @@
     <string name="shipping_cost">Shipping Cost</string>
     <string name="calculate">Calculate</string>
     <string name="reset">Reset</string>
+    <string name= "category"> SELECT A CATEGORY</string>
     <string-array name="categories_array">
         <item>Most Categories </item>
         <item>Books, Magazines, &amp; Movies</item>
         <item>Coin &amp; Paper Money</item>
         <item>Clothing, Shoes, &amp; Accessories</item>
         <item>Jewelry &amp; Watches</item>
+        <item> Art </item>
         <item>Heavy Equipment, Commercial Printing</item>
         <item>Guitar &amp; Basses</item>
         <item>Athletic Shoes</item>
