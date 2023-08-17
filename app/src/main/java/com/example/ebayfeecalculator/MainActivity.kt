@@ -41,13 +41,11 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-
         //Filling in values based on user input for item cost, sell price, buyer shipping, shipping cost
-        var itemCost: EditText = findViewById(R.id.itemCost)
-        var sellPrice: EditText = findViewById(R.id.sellingPrice)
-        var buyerShipping: EditText = findViewById(R.id.shippingBuyer)
-        var shippingCost: EditText = findViewById(R.id.shippingCost)
+        val itemCost: EditText = findViewById(R.id.itemCost)
+        val sellPrice: EditText = findViewById(R.id.sellingPrice)
+        val buyerShipping: EditText = findViewById(R.id.shippingBuyer)
+        val shippingCost: EditText = findViewById(R.id.shippingCost)
 
 
         //Calculate button
@@ -56,7 +54,8 @@ class MainActivity : AppCompatActivity() {
         //Reset button
         val resetButton: Button = findViewById(R.id.reset_button)
 
-        var ebayEstimate: TextView;
+        var ebayEstimate: TextView = findViewById(R.id.profitText)
+        var ebayFees: TextView = findViewById(R.id.ebayFees)
 
         var finalValueFee: Double = 0.0;
 
@@ -116,18 +115,15 @@ class MainActivity : AppCompatActivity() {
 
 
 
-            var resourceID: Int = resources.getIdentifier(estimate.toString(), "id", packageName)
-
-            if(resourceID != 0 ){
-                ebayEstimate = findViewById(resourceID);
-            }
-
-            Toast.makeText(this@MainActivity, "The expected profit will be $estimate", Toast.LENGTH_LONG).show()
+            ebayEstimate.text = ("Profit Estimate "+ "$ " + (BigDecimal((sellPriceInt + buyerShippingInt - itemCostInt - shippingCostInt - ebayFees.toDouble()).toString()).setScale(2, RoundingMode.HALF_EVEN)))
+            //Toast.makeText(this@MainActivity, "The expected profit will be $$estimate", Toast.LENGTH_LONG).show()
 
 
 
 
         }
+       // ebayFees.setText((sellPrice + buyerShipping) * (finalValueFee) + FEE_PER_ORDER).toString()
+
         //resets all values to "" once button is clicked
         resetButton.setOnClickListener{
             itemCost.setText("")
