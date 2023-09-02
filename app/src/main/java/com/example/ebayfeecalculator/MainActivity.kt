@@ -1,14 +1,16 @@
 package com.example.ebayfeecalculator
 
-import android.content.Context
+import android.content.ContentValues.TAG
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.text.DecimalFormat
-import kotlin.math.roundToInt
 
 const val FINAL_FEE_VARIOUS = .1325
 const val FEE_PER_ORDER = .30
@@ -30,7 +32,11 @@ const val ONE_HUNDRED_FIFTY= 150
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_main)
+
+        //This call sets the screen orientation to be locked in portrait even if user rotates
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         //create Spinner object to hold categories
         val categories = resources.getStringArray(R.array.categories_array)
@@ -71,11 +77,9 @@ class MainActivity : AppCompatActivity() {
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View, position: Int, id: Long
-            ) {
+                view: View, position: Int, id: Long) {
                 if(position ==1){
                     finalValueFee = FINAL_FEE_BOOKS
-                    Toast.makeText(this@MainActivity, "Hi", Toast.LENGTH_LONG).show()
                 } else if(position == 2){
                     finalValueFee = FINAL_FEE_COINS
                 }else if(position ==3){
@@ -104,6 +108,28 @@ class MainActivity : AppCompatActivity() {
         //Calculates profit and/or ebay fees when user hits submit button//
         calculateButton.setOnClickListener{
 
+
+            if(itemCost.text.isEmpty()){
+                itemCost.setText("0")
+                Snackbar.make(calculateButton, "Auto-filled with 0 due to blank input", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
+            if(sellPrice.text.isEmpty()){
+                sellPrice.setText("0")
+                Snackbar.make(calculateButton, "Auto-filled with 0 due to blank input", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
+            if(buyerShipping.text.isEmpty()){
+                buyerShipping.setText("0")
+                Snackbar.make(calculateButton, "Auto-filled with 0 due to blank input", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
+            if(shippingCost.text.isEmpty()){
+                shippingCost.setText("0")
+                Snackbar.make(calculateButton, "Auto-filled with 0 due to blank input", Snackbar.LENGTH_SHORT)
+                    .show()
+                }
+
             var itemCostInt: Double = itemCost.text.toString().toDouble()
             var sellPriceInt: Double = sellPrice.text.toString().toDouble()
             var buyerShippingInt: Double = buyerShipping.text.toString().toDouble()
@@ -113,7 +139,7 @@ class MainActivity : AppCompatActivity() {
             val estimate = BigDecimal((sellPriceInt + buyerShippingInt - itemCostInt - shippingCostInt - ebayFees.toDouble()).toString()).setScale(2, RoundingMode.HALF_EVEN)
 
 
-
+        
 
             ebayEstimate.text = ("Profit Estimate "+ "$ " + (BigDecimal((sellPriceInt + buyerShippingInt - itemCostInt - shippingCostInt - ebayFees.toDouble()).toString()).setScale(2, RoundingMode.HALF_EVEN)))
             //Toast.makeText(this@MainActivity, "The expected profit will be $$estimate", Toast.LENGTH_LONG).show()
@@ -133,6 +159,32 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart() called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume() called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause() called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop() called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        setContentView(R.layout.activity_main)
+        Log.d(TAG, "onDestroy() called")
     }
 
 
